@@ -1,35 +1,29 @@
---- ./conf/Makefile.am.org	Sat Dec 28 01:50:58 2002
-+++ ./conf/Makefile.am	Thu Jan  2 09:59:46 2003
-@@ -1,27 +1,25 @@
- EXTRA_DIST = partysip.conf
- 
--sysconfdir = $(prefix)/etc/partysip/
--
+diff -Naur partysip-0.6.0.orig/conf/Makefile.am partysip-0.6.0/conf/Makefile.am
+--- partysip-0.6.0.orig/conf/Makefile.am	Thu Jun 26 20:39:46 2003
++++ partysip-0.6.0/conf/Makefile.am	Thu Jun 26 20:45:06 2003
+@@ -3,23 +3,8 @@
  pkgdatadir = $(prefix)/$(PACKAGE)
  
  install-data-local:
--	$(mkinstalldirs) $(sysconfdir);
--	@chmod 0755 $(sysconfdir);
-+	$(mkinstalldirs) $(DESTDIR)$(sysconfdir);
-+	@chmod 0755 $(DESTDIR)$(sysconfdir);
+-	$(mkinstalldirs) $(CONFIG_DIR);
+-	@chmod 0755 $(CONFIG_DIR);
++	$(mkinstalldirs) $(DESTDIR)/$(CONFIG_DIR);
  	@echo "Installing admin files : partysip.conf";
--	@if test -f $(sysconfdir)partysip.conf; then \
-+	@if test -f $(DESTDIR)$(sysconfdir)partysip.conf; then \
- 	  echo "********************************************************"; \
- 	  echo "**** File partysip.conf has already been installed. ****"; \
- 	  echo "****   MERGE CHANGES MANUALLY in partysip.conf.     ****"; \
- 	  echo "********************************************************"; \
- 	  echo "Installing new admin file: partysip.conf.$(PSP_VERSION)";  \
- 	  echo "********************************************************"; \
--	  $(INSTALL_DATA) $(top_srcdir)/conf/partysip.conf $(sysconfdir)partysip.conf.$(PSP_VERSION); \
-+	  $(INSTALL_DATA) $(top_srcdir)/conf/partysip.conf $(DESTDIR)$(sysconfdir)partysip.conf.$(PSP_VERSION); \
- 	else \
- 	  echo "********************************************************"; \
- 	  echo "****         First installation detected.           ****"; \
- 	  echo "****      Please, edit the file partysip.conf.      ****"; \
- 	  echo "********************************************************"; \
--	  $(INSTALL_DATA) $(top_srcdir)/conf/partysip.conf $(sysconfdir); \
-+	  $(INSTALL_DATA) $(top_srcdir)/conf/partysip.conf $(DESTDIR)$(sysconfdir); \
- 	fi
+-	@if test -f $(CONFIG_DIR)/partysip.conf; then \
+-	  echo "********************************************************"; \
+-	  echo "**** File partysip.conf has already been installed. ****"; \
+-	  echo "****   MERGE CHANGES MANUALLY in partysip.conf.     ****"; \
+-	  echo "********************************************************"; \
+-	  echo "Installing new admin file: partysip.conf.$(PSP_VERSION)";  \
+-	  echo "********************************************************"; \
+-	  $(INSTALL_DATA) $(top_srcdir)/conf/partysip.conf $(CONFIG_DIR)/partysip.conf.$(PSP_VERSION); \
+-	else \
+-	  echo "********************************************************"; \
+-	  echo "****         First installation detected.           ****"; \
+-	  echo "****      Please, edit the file partysip.conf.      ****"; \
+-	  echo "********************************************************"; \
+-	  $(INSTALL_DATA) $(top_srcdir)/conf/partysip.conf $(CONFIG_DIR)/; \
+-	fi
++	$(INSTALL_DATA) $(top_srcdir)/conf/partysip.conf $(DESTDIR)/$(CONFIG_DIR)/;
  
  
