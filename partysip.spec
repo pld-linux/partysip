@@ -13,7 +13,7 @@ Source2:	%{name}.sysconfig
 Patch0:		%{name}-DESTDIR_fix.patch
 Patch1:		%{name}-config_location.patch
 URL:		http://www.partysip.org/
-#BuildRequires:	autoconf
+BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libosip-devel >= 0.8.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -60,8 +60,8 @@ Statyczne biblioteki dla modularnego serwera proxy SIP partysip.
 
 %build
 rm -f missing
-#%{__aclocal}
-#%{__autoconf}
+%{__aclocal} -I scripts
+%{__autoconf}
 %{__automake}
 %configure \
 	--sysconfdir=/etc/partysip \
