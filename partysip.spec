@@ -1,15 +1,19 @@
+# TODO:
+# - separate plugin/libs packages
+# - init-scripts
 Summary:	A modular SIP proxy server
 Summary(pl):	Modularny serwer proxy SIP
 Name:		partysip
-Version:	0.4.7
-Release:	0.1
+Version:	0.5.3
+Release:	0.2
 License:	LGPL
 Group:		Networking/Daemons
 Source0:	http://savannah.gnu.org/download/partysip/%{name}-%{version}.tar.gz
+Patch0:		%{name}-DESTDIR_fix.patch
+Patch1:		%{name}-config_location.patch
 URL:		http://www.partysip.org/
 #BuildRequires:	autoconf
-#BuildRequires:	automake
-#BuildRequires:	libtool
+BuildRequires:	automake
 BuildRequires:	libosip-devel >= 0.8.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -24,16 +28,40 @@ serwer rejestr oraz jako bezstanowy lub obs³uguj±cy stany serwer SIP.
 Nowe mo¿liwo¶ci, takie jak przekazywanie wiadomo¶ci i automaty
 odpowiadaj±ce, mog± byæ dodane przez wtyczki.
 
+%package devel
+Summary:	Header files for a modular SIP proxy server
+Summary(pl):	Pliki nag³ówkowe dla modularnego serwera proxy SIP
+Group:		Developement
+
+%description devel
+Header files for partysip.
+
+%description -l pl devel
+Pliki nag³ówkowe dla partysip.
+
+%package static
+Summary:	Static libraries for a modular SIP proxy server
+Summary(pl):	Statyczne biblioteki dla modularnego serwera proxy SIP
+Group:		Developement
+
+%description static
+Static libraries for a modular SIP proxy server partysip.
+
+%description -l pl static
+Statyczne biblioteki dla modularnego serwera proxy SIP partysip.
+
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
-#rm -f missing
-#%{__libtoolize}
-#aclocal
+rm -f missing
+#%{__aclocal}
 #%{__autoconf}
-#%{__automake}
-%configure2_13 \
+%{__automake}
+%configure \
+	--sysconfdir=/etc/partysip \
 	--disable-debug \
 	--disable-trace
 
@@ -45,14 +73,13 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{sysconfig,rc.d/init.d},/var/log/}
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-#install contrib/PLD/.init $RPM_BUILD_ROOT/etc/rc.d/init.d/
+#install  $RPM_BUILD_ROOT/etc/rc.d/init.d/
 #install contrib/.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/
 
-touch $RPM_BUILD_ROOT/var/log/dcd/dcd.log
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post -p /sbin/ldconfig
 #/sbin/chkconfig --add
 #if [ -f /var/lock/subsys/ ]; then
 #        /etc/rc.d/init.d/ restart 1>&2
@@ -68,13 +95,27 @@ rm -rf $RPM_BUILD_ROOT
 #        /sbin/chkconfig --del
 #fi
 
+%postun -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
-#%doc AUTHORS BUGS FAQ NEWS README TODO doc/*.txt doc/*.html
-#%config(noreplace) %{_sysconfdir}/.conf
+%doc AUTHORS NEWS README TODO
+%config(noreplace) %{_sysconfdir}/partysip/*.conf
+%attr(755,root,root) %{_libdir}/*.so
+%attr(644,root,root) %{_libdir}/*.la
+%attr(755,root,root) %{_libdir}/partysip/*.so
+%attr(644,root,root) %{_libdir}/partysip/*.la
+%attr(755,root,root) %{_bindir}/partysip
 #%config(noreplace) /etc/sysconfig/
-#%attr(755,root,root) %{_sbindir}/
 #%attr(754,root,root) /etc/rc.d/init.d/
-#%attr(644,daemon,root) /var/log/.log
-#%attr(755,daemon,root) %dir /var/log//
-#%dir /var/log/archiv/
+
+%files devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/partysip-config
+%{_includedir}/partysip/*.h
+%{_includedir}/ppl/*.h
+
+%files static
+%defattr(644,root,root,755)
+%attr(644,root,root) %{_libdir}/*.a
+%attr(644,root,root) %{_libdir}/partysip/*.a
