@@ -16,6 +16,7 @@ URL:		http://www.partysip.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libosip-devel >= 0.8.9
+BuildRequires:	libtool
 Requires(post):	/sbin/ldconfig
 #Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -66,7 +67,6 @@ rm -f missing
 %{__autoconf}
 %{__automake}
 %configure \
-	--sysconfdir=/etc \
 	--disable-debug \
 	--disable-trace
 
@@ -76,11 +76,14 @@ rm -f missing
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
 
-DESTDIR=$RPM_BUILD_ROOT %{__make} install
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 # temporary useless
 #install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+
+rm -f $RPM_BUILD_ROOT%{_libdir}/partysip/*.a
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -110,10 +113,11 @@ fi
 %dir %{_sysconfdir}/partysip
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/partysip/*.conf
 %attr(755,root,root) %{_bindir}/partysip
-%attr(755,root,root) %{_libdir}/libppl.so*
+%attr(755,root,root) %{_libdir}/libppl.so.*.*.*
 %dir %{_libdir}/partysip
 %attr(755,root,root) %{_libdir}/partysip/*.so
-%attr(644,root,root) %{_libdir}/partysip/*.la
+# needed or not?
+%{_libdir}/partysip/*.la
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/%{name}
 #%attr(754,root,root) /etc/rc.d/init.d/%{name}
 
@@ -127,5 +131,4 @@ fi
 
 %files static
 %defattr(644,root,root,755)
-%attr(644,root,root) %{_libdir}/*.a
-%attr(644,root,root) %{_libdir}/partysip/*.a
+%{_libdir}/*.a
