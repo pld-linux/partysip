@@ -1,0 +1,57 @@
+#!/bin/sh
+#
+# partysip	This shell script takes care of starting and stopping partysip
+#
+# chkconfig:    2345 20 80
+# description:	partysip
+# processname:	partysip
+#
+# pidfile:	/var/run/partysip.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+if is_no "${NETWORKING}"; then
+	msg_network_down partysip
+	exit 1
+fi
+
+# See how we were called.
+case "$1" in
+  start)
+        # Start daemons.
+	if [ ! -f /var/lock/subsys/partysip ]; then
+		msg_starting partysip
+		daemon partysip
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/partysip
+	else
+		msg_already_running partysip
+	fi
+	;;
+  stop)
+	# Stop daemons.
+	if [ -f /var/lock/subsys/partysip ]; then
+		msg_stopping partysip
+		killproc partysip
+		rm -f /var/lock/subsys/partysip >/dev/null 2>&1
+	else
+		msg_not_running partysip
+		exit 1
+	fi
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
+  status)
+	status partysip
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|status}"
+	exit 1
+esac

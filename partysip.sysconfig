@@ -1,0 +1,2 @@
+# Define nice level for partysip
+SERVICE_RUN_NICE_LEVEL="+5"
