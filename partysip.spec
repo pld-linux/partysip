@@ -8,6 +8,7 @@ Release:	0.9
 License:	LGPL
 Group:		Networking/Daemons
 Source0:	http://savannah.gnu.org/download/partysip/%{name}-%{version}.tar.gz
+# Source0-md5:	6e568ec1d25765a5c030acd79ec6a552
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-DESTDIR_fix.patch
