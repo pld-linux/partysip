@@ -7,7 +7,7 @@ License:	LGPL
 Group:		Networking/Daemons
 Source0:	http://savannah.gnu.org/download/partysip/%{name}-%{version}.tar.gz
 URL:		http://www.partysip.org/
-BuildRequires:	autoconf
+#BuildRequires:	autoconf
 #BuildRequires:	automake
 #BuildRequires:	libtool
 BuildRequires:	libosip-devel >= 0.8.9
@@ -17,6 +17,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Partysip is a modular SIP proxy server. It can be used as a registrar
 and a stateless and stateful SIP server. New capabilities, such as
 instant messaging and answering machines, can be added by plugins.
+
+%description -l pl
+partysip jest modularnym serwerem proxy SIP. Mo¿e byæ u¿ywany jako
+serwer rejestr oraz jako bezstanowy lub obs³uguj±cy stany serwer SIP.
+Nowe mo¿liwo¶ci, takie jak przekazywanie wiadomo¶ci i automaty
+odpowiadaj±ce, mog± byæ dodane przez wtyczki.
 
 %prep
 %setup -q
