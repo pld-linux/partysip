@@ -1,14 +1,15 @@
 # TODO:
 # - separate plugin/libs packages
-# - init-scripts
 Summary:	A modular SIP proxy server
 Summary(pl):	Modularny serwer proxy SIP
 Name:		partysip
 Version:	0.5.3
-Release:	0.2
+Release:	0.9
 License:	LGPL
 Group:		Networking/Daemons
 Source0:	http://savannah.gnu.org/download/partysip/%{name}-%{version}.tar.gz
+Source1:	%{name}.init
+Source2:	%{name}.sysconfig
 Patch0:		%{name}-DESTDIR_fix.patch
 Patch1:		%{name}-config_location.patch
 URL:		http://www.partysip.org/
@@ -32,6 +33,7 @@ odpowiadaj±ce, mog± byæ dodane przez wtyczki.
 Summary:	Header files for a modular SIP proxy server
 Summary(pl):	Pliki nag³ówkowe dla modularnego serwera proxy SIP
 Group:		Developement
+Requires:	%{name} = %{version}
 
 %description devel
 Header files for partysip.
@@ -43,6 +45,7 @@ Pliki nag³ówkowe dla partysip.
 Summary:	Static libraries for a modular SIP proxy server
 Summary(pl):	Statyczne biblioteki dla modularnego serwera proxy SIP
 Group:		Developement
+Requires:	%{name} = %{version}
 
 %description static
 Static libraries for a modular SIP proxy server partysip.
@@ -69,31 +72,33 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{sysconfig,rc.d/init.d},/var/log/}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{sysconfig,rc.d/init.d}
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-#install  $RPM_BUILD_ROOT/etc/rc.d/init.d/
-#install contrib/.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/
+# temporary useless
+#install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/%{name}
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-#/sbin/chkconfig --add
-#if [ -f /var/lock/subsys/ ]; then
-#        /etc/rc.d/init.d/ restart 1>&2
-#else
-#        echo "Run \"/etc/rc.d/init.d/ start\" to start Daemon."
-#fi
+%post
+/sbin/ldconfig
+#/sbin/chkconfig --add %{name}
+if [ -f /var/lock/subsys/%{name} ]; then
+	/etc/rc.d/init.d/%{name} restart 1>&2
+else
+	echo "Run \"/etc/rc.d/init.d/%{name} start\" to start partysip."
+fi
 
 %preun
-#if [ "$1" = "0" ]; then
-#        if [ -f /var/lock/subsys/ ]; then
-#               /etc/rc.d/init.d/ stop 1>&2
-#        fi
-#        /sbin/chkconfig --del
-#fi
+#/sbin/chkconfig --del %{name}
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/%{name} ]; then
+		/etc/rc.d/init.d/%{name} stop 1>&2
+	fi
+fi
 
 %postun -p /sbin/ldconfig
 
@@ -106,8 +111,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/partysip/*.so
 %attr(644,root,root) %{_libdir}/partysip/*.la
 %attr(755,root,root) %{_bindir}/partysip
-#%config(noreplace) /etc/sysconfig/
-#%attr(754,root,root) /etc/rc.d/init.d/
+%config(noreplace) /etc/sysconfig/%{name}
+#%attr(754,root,root) /etc/rc.d/init.d/%{name}
 
 %files devel
 %defattr(644,root,root,755)
