@@ -3,16 +3,15 @@
 Summary:	A modular SIP proxy server
 Summary(pl):	Modularny serwer proxy SIP
 Name:		partysip
-Version:	0.5.3
-Release:	0.9
+Version:	0.6.0
+Release:	1
 License:	LGPL
 Group:		Networking/Daemons
 Source0:	http://savannah.gnu.org/download/partysip/%{name}-%{version}.tar.gz
-# Source0-md5:	6e568ec1d25765a5c030acd79ec6a552
+# Source0-md5:	55a0bbf61df281393a093513e9a44808
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-DESTDIR_fix.patch
-Patch1:		%{name}-config_location.patch
 URL:		http://www.partysip.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -59,15 +58,15 @@ Statyczne biblioteki dla modularnego serwera proxy SIP partysip.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 rm -f missing
+%{__libtoolize}
 %{__aclocal} -I scripts
 %{__autoconf}
 %{__automake}
 %configure \
-	--sysconfdir=/etc/partysip \
+	--sysconfdir=/etc \
 	--disable-debug \
 	--disable-trace
 
@@ -77,7 +76,7 @@ rm -f missing
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+DESTDIR=$RPM_BUILD_ROOT %{__make} install
 
 # temporary useless
 #install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
@@ -111,7 +110,7 @@ fi
 %dir %{_sysconfdir}/partysip
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/partysip/*.conf
 %attr(755,root,root) %{_bindir}/partysip
-%attr(755,root,root) %{_libdir}/libppl-*.so
+%attr(755,root,root) %{_libdir}/libppl.so*
 %dir %{_libdir}/partysip
 %attr(755,root,root) %{_libdir}/partysip/*.so
 %attr(644,root,root) %{_libdir}/partysip/*.la
