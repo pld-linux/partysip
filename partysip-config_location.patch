@@ -1,0 +1,31 @@
+--- ./src/main.c.org	Thu Jan  2 11:10:38 2003
++++ ./src/main.c	Thu Jan  2 11:09:38 2003
+@@ -381,7 +381,7 @@
+   ppl_getopt_t *opt;
+   ppl_status_t rv;
+ #ifdef WIN32
+-  const char *cf_config_file = PSP_SERVER_INSTALL_DIR "partysip.conf";
++  const char *cf_config_file = CONFIG_DIR "/partysip.conf";
+ #ifdef HAVE_NT_SERVICE_MANAGER
+   int interactive_mode = 2;
+ #else
+@@ -389,7 +389,7 @@
+ #endif
+ #else
+   const char *cf_config_file =
+-    PSP_SERVER_INSTALL_DIR "/etc/partysip/partysip.conf";
++    CONFIG_DIR "/partysip.conf";
+   int interactive_mode = 0;
+ #endif
+   int cf_debug_level = 0;
+--- ./src/Makefile.am.org	Thu Jan  2 11:10:57 2003
++++ ./src/Makefile.am	Thu Jan  2 11:09:08 2003
+@@ -20,7 +20,7 @@
+ INCLUDES =  -I$(top_srcdir)/partysip -I$(top_srcdir)/ppl/unix/ \
+ -I$(top_srcdir) -I$(prefix)/include
+ 
+-AM_CFLAGS = -Wall $(PARTYSIP_FLAGS) -DPSP_SERVER_PREFIX="\"$(prefix)\"" $(PTHREAD_CFLAGS)
++AM_CFLAGS = -Wall $(PARTYSIP_FLAGS) -DPSP_SERVER_PREFIX="\"$(prefix)\"" -DCONFIG_DIR="\"@sysconfdir@\"" $(PTHREAD_CFLAGS)
+ 
+ install-exec-local:
+ 	echo "Installing script file for plugin: partysip-config";
