@@ -111,14 +111,14 @@ fi
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README TODO
 %dir %{_sysconfdir}/partysip
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/partysip/*.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/partysip/*.conf
 %attr(755,root,root) %{_bindir}/partysip
 %attr(755,root,root) %{_libdir}/libppl.so.*.*.*
 %dir %{_libdir}/partysip
 %attr(755,root,root) %{_libdir}/partysip/*.so
 # needed or not?
 %{_libdir}/partysip/*.la
-%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/%{name}
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/%{name}
 #%attr(754,root,root) /etc/rc.d/init.d/%{name}
 
 %files devel
