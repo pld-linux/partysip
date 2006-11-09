@@ -36,7 +36,7 @@ odpowiadaj±ce, mog± byæ dodane przez wtyczki.
 Summary:	Header files for a modular SIP proxy server
 Summary(pl):	Pliki nag³ówkowe dla modularnego serwera proxy SIP
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for partysip.
@@ -48,7 +48,7 @@ Pliki nag³ówkowe dla partysip.
 Summary:	Static libraries for a modular SIP proxy server
 Summary(pl):	Statyczne biblioteki dla modularnego serwera proxy SIP
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description static
 Static libraries for a modular SIP proxy server partysip.
