@@ -1,7 +1,7 @@
 # TODO:
 # - separate plugin/libs packages
 Summary:	A modular SIP proxy server
-Summary(pl):	Modularny serwer proxy SIP
+Summary(pl.UTF-8):   Modularny serwer proxy SIP
 Name:		partysip
 Version:	0.6.0
 Release:	1
@@ -26,34 +26,34 @@ Partysip is a modular SIP proxy server. It can be used as a registrar
 and a stateless and stateful SIP server. New capabilities, such as
 instant messaging and answering machines, can be added by plugins.
 
-%description -l pl
-partysip jest modularnym serwerem proxy SIP. Moøe byÊ uøywany jako
-serwer rejestr oraz jako bezstanowy lub obs≥uguj±cy stany serwer SIP.
-Nowe moøliwo∂ci, takie jak przekazywanie wiadomo∂ci i automaty
-odpowiadaj±ce, mog± byÊ dodane przez wtyczki.
+%description -l pl.UTF-8
+partysip jest modularnym serwerem proxy SIP. Mo≈ºe byƒá u≈ºywany jako
+serwer rejestr oraz jako bezstanowy lub obs≈ÇugujƒÖcy stany serwer SIP.
+Nowe mo≈ºliwo≈õci, takie jak przekazywanie wiadomo≈õci i automaty
+odpowiadajƒÖce, mogƒÖ byƒá dodane przez wtyczki.
 
 %package devel
 Summary:	Header files for a modular SIP proxy server
-Summary(pl):	Pliki nag≥Ûwkowe dla modularnego serwera proxy SIP
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe dla modularnego serwera proxy SIP
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for partysip.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe dla partysip.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe dla partysip.
 
 %package static
 Summary:	Static libraries for a modular SIP proxy server
-Summary(pl):	Statyczne biblioteki dla modularnego serwera proxy SIP
+Summary(pl.UTF-8):   Statyczne biblioteki dla modularnego serwera proxy SIP
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description static
 Static libraries for a modular SIP proxy server partysip.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczne biblioteki dla modularnego serwera proxy SIP partysip.
 
 %prep
