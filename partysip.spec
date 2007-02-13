@@ -1,7 +1,7 @@
 # TODO:
 # - separate plugin/libs packages
 Summary:	A modular SIP proxy server
-Summary(pl.UTF-8):   Modularny serwer proxy SIP
+Summary(pl.UTF-8):	Modularny serwer proxy SIP
 Name:		partysip
 Version:	0.6.0
 Release:	1
@@ -34,7 +34,7 @@ odpowiadające, mogą być dodane przez wtyczki.
 
 %package devel
 Summary:	Header files for a modular SIP proxy server
-Summary(pl.UTF-8):   Pliki nagłówkowe dla modularnego serwera proxy SIP
+Summary(pl.UTF-8):	Pliki nagłówkowe dla modularnego serwera proxy SIP
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -46,7 +46,7 @@ Pliki nagłówkowe dla partysip.
 
 %package static
 Summary:	Static libraries for a modular SIP proxy server
-Summary(pl.UTF-8):   Statyczne biblioteki dla modularnego serwera proxy SIP
+Summary(pl.UTF-8):	Statyczne biblioteki dla modularnego serwera proxy SIP
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
